@@ -2,6 +2,7 @@ package pages;
 
 import dto.Student;
 import enums.Gender;
+import enums.Hobbies;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+
+import java.util.List;
 
 public class PracticeFormPage extends BasePage{
     public PracticeFormPage(WebDriver driver){
@@ -48,14 +51,22 @@ public class PracticeFormPage extends BasePage{
         inputLastName.sendKeys(student.getLastName());
         inputUserEmail.sendKeys(student.getEmail());
         inputMobile.sendKeys(student.getMobile());
-        inputAddress.sendKeys(student.getAddress());
-        pause(3);
         typeGender(student.getGender());
-        pause(3);
         typeDateOfBirth(student.getDateOfBirth());
-        pause(3);
         typeSubjects(student.getSubjects());
+        pause(1);
+       typeHobbies(student.getHobbies());
+        inputAddress.sendKeys(student.getAddress());
+        typeStateCity(student.getState(), student.getCity());
         btnSubmit.click();
+        pause(1);
+    }
+    private void typeStateCity(String state,String city){
+        inputState.sendKeys(state);
+        inputState.sendKeys(Keys.ENTER);
+
+        inputCity.sendKeys(city);
+        inputCity.sendKeys(Keys.ENTER);
     }
 
     public boolean validateModalMessage(String text){
@@ -85,6 +96,16 @@ public class PracticeFormPage extends BasePage{
         for (String s : arr){
             inputSubject.sendKeys(s);
             inputSubject.sendKeys(Keys.ENTER);
+        }
+    }
+    private void typeHobbies(List<Hobbies> hobbies){
+        for (Hobbies h : hobbies){
+            switch (h){
+                case SPORTS -> driver.findElement(By.xpath(h.getLocator())).click();
+                case READING -> driver.findElement(By.xpath(h.getLocator())).click();
+                case MUSIC ->driver.findElement(By.xpath(h.getLocator())).click();
+
+            }
         }
     }
 
